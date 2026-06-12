@@ -9,7 +9,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
-	"github.com/michaelkosir/terraform-provider-jwkpem/internal/provider"
+	"github.com/michaelkosir/terraform-provider-jwk/internal/provider"
 )
 
 var (
@@ -28,7 +28,7 @@ func main() {
 	flag.Parse()
 
 	opts := providerserver.ServeOpts{
-		Address: "registry.terraform.io/michaelkosir/jwkpem",
+		Address: "registry.terraform.io/michaelkosir/jwk",
 		Debug:   debug,
 	}
 

@@ -1,4 +1,4 @@
-module github.com/michaelkosir/terraform-provider-jwkpem
+module github.com/michaelkosir/terraform-provider-jwk
 
 go 1.25.8
 

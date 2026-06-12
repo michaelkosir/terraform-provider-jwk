@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
-func TestJwkToPemFunction_Valid(t *testing.T) {
+func TestToPemFunction_Valid(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
 			tfversion.SkipBelow(tfversion.Version1_8_0),
@@ -23,7 +23,7 @@ func TestJwkToPemFunction_Valid(t *testing.T) {
 			{
 				Config: `
 				output "test" {
-					value = provider::jwkpem::jwk_to_pem(jsonencode({
+					value = provider::jwk::to_pem(jsonencode({
 						use = "sig"
 						kty = "RSA"
 						kid = "bAfiahKKpQMLjvezK3KKPLZuJc48JwmVNHVh9KbHXjE"
@@ -44,7 +44,7 @@ func TestJwkToPemFunction_Valid(t *testing.T) {
 	})
 }
 
-func TestJwkToPemFunction_ValidWithOptionalFields(t *testing.T) {
+func TestToPemFunction_ValidWithOptionalFields(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
 			tfversion.SkipBelow(tfversion.Version1_8_0),
@@ -54,7 +54,7 @@ func TestJwkToPemFunction_ValidWithOptionalFields(t *testing.T) {
 			{
 				Config: `
 				output "test" {
-					value = provider::jwkpem::jwk_to_pem(jsonencode({
+					value = provider::jwk::to_pem(jsonencode({
 						use = "sig"
 						kty = "RSA"
 						kid = "bAfiahKKpQMLjvezK3KKPLZuJc48JwmVNHVh9KbHXjE"
@@ -75,7 +75,7 @@ func TestJwkToPemFunction_ValidWithOptionalFields(t *testing.T) {
 	})
 }
 
-func TestJwkToPemFunction_InvalidJSON(t *testing.T) {
+func TestToPemFunction_InvalidJSON(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
 			tfversion.SkipBelow(tfversion.Version1_8_0),
@@ -85,7 +85,7 @@ func TestJwkToPemFunction_InvalidJSON(t *testing.T) {
 			{
 				Config: `
 				output "test" {
-					value = provider::jwkpem::jwk_to_pem("{invalid json}")
+					value = provider::jwk::to_pem("{invalid json}")
 				}
 				`,
 				ExpectError: regexp.MustCompile(`Invalid JWK JSON`),
@@ -94,7 +94,7 @@ func TestJwkToPemFunction_InvalidJSON(t *testing.T) {
 	})
 }
 
-func TestJwkToPemFunction_MissingModulus(t *testing.T) {
+func TestToPemFunction_MissingModulus(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
 			tfversion.SkipBelow(tfversion.Version1_8_0),
@@ -104,7 +104,7 @@ func TestJwkToPemFunction_MissingModulus(t *testing.T) {
 			{
 				Config: `
 				output "test" {
-					value = provider::jwkpem::jwk_to_pem(jsonencode({
+					value = provider::jwk::to_pem(jsonencode({
 						kty = "RSA"
 						e   = "AQAB"
 					}))
@@ -116,7 +116,7 @@ func TestJwkToPemFunction_MissingModulus(t *testing.T) {
 	})
 }
 
-func TestJwkToPemFunction_MissingExponent(t *testing.T) {
+func TestToPemFunction_MissingExponent(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
 			tfversion.SkipBelow(tfversion.Version1_8_0),
@@ -126,7 +126,7 @@ func TestJwkToPemFunction_MissingExponent(t *testing.T) {
 			{
 				Config: `
 				output "test" {
-					value = provider::jwkpem::jwk_to_pem(jsonencode({
+					value = provider::jwk::to_pem(jsonencode({
 						kty = "RSA"
 						n   = "0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw"
 					}))
@@ -138,7 +138,7 @@ func TestJwkToPemFunction_MissingExponent(t *testing.T) {
 	})
 }
 
-func TestJwkToPemFunction_UnsupportedKeyType(t *testing.T) {
+func TestToPemFunction_UnsupportedKeyType(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
 			tfversion.SkipBelow(tfversion.Version1_8_0),
@@ -148,7 +148,7 @@ func TestJwkToPemFunction_UnsupportedKeyType(t *testing.T) {
 			{
 				Config: `
 				output "test" {
-					value = provider::jwkpem::jwk_to_pem(jsonencode({
+					value = provider::jwk::to_pem(jsonencode({
 						kty = "EC"
 						n   = "0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw"
 						e   = "AQAB"
@@ -161,7 +161,7 @@ func TestJwkToPemFunction_UnsupportedKeyType(t *testing.T) {
 	})
 }
 
-func TestJwkToPemFunction_InvalidBase64Modulus(t *testing.T) {
+func TestToPemFunction_InvalidBase64Modulus(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
 			tfversion.SkipBelow(tfversion.Version1_8_0),
@@ -171,7 +171,7 @@ func TestJwkToPemFunction_InvalidBase64Modulus(t *testing.T) {
 			{
 				Config: `
 				output "test" {
-					value = provider::jwkpem::jwk_to_pem(jsonencode({
+					value = provider::jwk::to_pem(jsonencode({
 						kty = "RSA"
 						n   = "not-valid-base64!!!"
 						e   = "AQAB"
@@ -184,7 +184,7 @@ func TestJwkToPemFunction_InvalidBase64Modulus(t *testing.T) {
 	})
 }
 
-func TestJwkToPemFunction_InvalidBase64Exponent(t *testing.T) {
+func TestToPemFunction_InvalidBase64Exponent(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
 			tfversion.SkipBelow(tfversion.Version1_8_0),
@@ -194,7 +194,7 @@ func TestJwkToPemFunction_InvalidBase64Exponent(t *testing.T) {
 			{
 				Config: `
 				output "test" {
-					value = provider::jwkpem::jwk_to_pem(jsonencode({
+					value = provider::jwk::to_pem(jsonencode({
 						kty = "RSA"
 						n   = "0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw"
 						e   = "not-valid-base64!!!"
@@ -207,7 +207,7 @@ func TestJwkToPemFunction_InvalidBase64Exponent(t *testing.T) {
 	})
 }
 
-func TestJwkToPemFunction_Null(t *testing.T) {
+func TestToPemFunction_Null(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
 			tfversion.SkipBelow(tfversion.Version1_8_0),
@@ -217,7 +217,7 @@ func TestJwkToPemFunction_Null(t *testing.T) {
 			{
 				Config: `
 				output "test" {
-					value = provider::jwkpem::jwk_to_pem(null)
+					value = provider::jwk::to_pem(null)
 				}
 				`,
 				ExpectError: regexp.MustCompile(`argument must not be null`),
@@ -226,7 +226,7 @@ func TestJwkToPemFunction_Null(t *testing.T) {
 	})
 }
 
-func TestJwkToPemFunction_Unknown(t *testing.T) {
+func TestToPemFunction_Unknown(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
 			tfversion.SkipBelow(tfversion.Version1_8_0),
@@ -247,7 +247,7 @@ func TestJwkToPemFunction_Unknown(t *testing.T) {
 				}
 				
 				output "test" {
-					value = provider::jwkpem::jwk_to_pem(terraform_data.test.output)
+					value = provider::jwk::to_pem(terraform_data.test.output)
 				}
 				`,
 				ConfigStateChecks: []statecheck.StateCheck{

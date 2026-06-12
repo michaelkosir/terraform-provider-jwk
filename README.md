@@ -1,4 +1,4 @@
-# Terraform Provider: jwkpem
+# Terraform Provider: jwk
 
 This Terraform provider enables conversion of JSON Web Keys (JWK) to PEM (Privacy Enhanced Mail) format within Terraform configurations.
 
@@ -12,8 +12,8 @@ This Terraform provider enables conversion of JSON Web Keys (JWK) to PEM (Privac
 ```terraform
 terraform {
   required_providers {
-    jwkpem = {
-      source = "michaelkosir/jwkpem"
+    jwk = {
+      source = "michaelkosir/jwk"
     }
     http = {
       source = "hashicorp/http"
@@ -21,7 +21,7 @@ terraform {
   }
 }
 
-provider "jwkpem" {}
+provider "jwk" {}
 
 data "http" "jwks" {
   url = "https://kubernetes.example.com:6443/openid/v1/jwks"
@@ -38,18 +38,18 @@ resource "vault_jwt_auth_backend" "k8s" {
 
   # Convert JWKS keys to PEM format for Vault
   jwt_validation_pubkeys = [
-    for jwk in local.jwks_data.keys : provider::jwkpem::jwk_to_pem(jsonencode(jwk))
+    for jwk in local.jwks_data.keys : provider::jwk::to_pem(jsonencode(jwk))
   ]
 }
 ```
 
 ## Available Functions
 
-### `jwk_to_pem`
+### `to_pem`
 
 Converts a JSON Web Key (JWK) to PEM format.
 
-**Signature:** `jwk_to_pem(jwk_json string) string`
+**Signature:** `to_pem(jwk_json string) string`
 
 **Parameters:**
 
@@ -57,7 +57,7 @@ Converts a JSON Web Key (JWK) to PEM format.
 
 **Returns:** A PEM-encoded public key string
 
-See the [function documentation](docs/functions/jwk_to_pem.md) for more details and examples.
+See the [function documentation](docs/functions/to_pem.md) for more details and examples.
 
 ## Use Cases
 
@@ -87,10 +87,10 @@ go test -v ./internal/provider/
 go build -v
 
 # Create local provider directory
-mkdir -p ~/.terraform.d/plugins/registry.terraform.io/michaelkosir/jwkpem/0.1.0/darwin_arm64
+mkdir -p ~/.terraform.d/plugins/registry.terraform.io/michaelkosir/jwk/0.1.0/darwin_arm64
 
 # Copy the binary (adjust path for your OS/architecture)
-cp terraform-provider-jwkpem ~/.terraform.d/plugins/registry.terraform.io/michaelkosir/jwkpem/0.1.0/darwin_arm64/terraform-provider-jwkpem
+cp terraform-provider-jwk ~/.terraform.d/plugins/registry.terraform.io/michaelkosir/jwk/0.1.0/darwin_arm64/terraform-provider-jwk
 ```
 
 Then in your Terraform configuration:
@@ -98,8 +98,8 @@ Then in your Terraform configuration:
 ```terraform
 terraform {
   required_providers {
-    jwkpem = {
-      source  = "michaelkosir/jwkpem"
+    jwk = {
+      source  = "michaelkosir/jwk"
       version = "0.1.0"
     }
   }
@@ -109,7 +109,7 @@ terraform {
 ## Documentation
 
 - [Provider Documentation](docs/index.md)
-- [Function: jwk_to_pem](docs/functions/jwk_to_pem.md)
+- [Function: to_pem](docs/functions/to_pem.md)
 - [Examples](examples/)
 
 ## License

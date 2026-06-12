@@ -17,14 +17,14 @@ import (
 )
 
 var (
-	_ function.Function = JwkToPemFunction{}
+	_ function.Function = ToPemFunction{}
 )
 
-func NewJwkToPemFunction() function.Function {
-	return JwkToPemFunction{}
+func NewToPemFunction() function.Function {
+	return ToPemFunction{}
 }
 
-type JwkToPemFunction struct{}
+type ToPemFunction struct{}
 
 // JWK represents a JSON Web Key structure.
 type JWK struct {
@@ -36,11 +36,11 @@ type JWK struct {
 	Alg string `json:"alg,omitempty"`
 }
 
-func (r JwkToPemFunction) Metadata(_ context.Context, req function.MetadataRequest, resp *function.MetadataResponse) {
-	resp.Name = "jwk_to_pem"
+func (r ToPemFunction) Metadata(_ context.Context, req function.MetadataRequest, resp *function.MetadataResponse) {
+	resp.Name = "to_pem"
 }
 
-func (r JwkToPemFunction) Definition(_ context.Context, _ function.DefinitionRequest, resp *function.DefinitionResponse) {
+func (r ToPemFunction) Definition(_ context.Context, _ function.DefinitionRequest, resp *function.DefinitionResponse) {
 	resp.Definition = function.Definition{
 		Summary:             "Convert JWK to PEM format",
 		MarkdownDescription: "Converts a JSON Web Key (JWK) to PEM (Privacy Enhanced Mail) format. Accepts a JWK JSON string and returns the corresponding PEM-encoded public key.",
@@ -54,7 +54,7 @@ func (r JwkToPemFunction) Definition(_ context.Context, _ function.DefinitionReq
 	}
 }
 
-func (r JwkToPemFunction) Run(ctx context.Context, req function.RunRequest, resp *function.RunResponse) {
+func (r ToPemFunction) Run(ctx context.Context, req function.RunRequest, resp *function.RunResponse) {
 	var jwkJSON string
 
 	resp.Error = function.ConcatFuncErrors(req.Arguments.Get(ctx, &jwkJSON))

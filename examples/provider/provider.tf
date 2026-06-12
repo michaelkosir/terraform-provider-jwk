@@ -1,10 +1,10 @@
 terraform {
   required_providers {
-    jwkpem = {
-      source = "michaelkosir/jwkpem"
+    jwk = {
+      source = "michaelkosir/jwk"
     }
   }
 }
 
-# No configuration is required for the jwkpem provider
-provider "jwkpem" {}
+# No configuration is required for the jwk provider
+provider "jwk" {}
